@@ -29,7 +29,8 @@
    <main>
         <div class="contenedor-principal">
             
-            <form class="Tarjeta" method="POST" action="">
+          <!-- Reemplazamos action="" por la etiqueta dinámica de Django -->
+            <form class="Tarjeta" method="POST" action="{% url 'resultados_view' %}">
                 {% csrf_token %} 
                 <div>
                     <h4 class="h4-glow"> Agregar saldo </h4>
@@ -37,6 +38,7 @@
 
                 <div id="inputsCalculo">
                     <div class="input-flotante">
+                        <!-- El value ahora busca dentro de tu contexto unificado -->
                         <input type="number" step="any" name="saldo" id="valor" required value="{{ saldo_original|default:'' }}" />
                         <label for="valor">Ingrese valor</label>
                     </div>
