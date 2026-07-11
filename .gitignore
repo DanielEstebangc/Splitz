@@ -1,1 +1,32 @@
 .env
+# === CONFIGURACIONES LOCALES (CRÍTICO) ===
+.env
+.env.[a-zA-Z0-9]*
+
+# === BASE DE DATOS LOCAL ===
+# En producción usarás una base de datos real (PostgreSQL, etc.). 
+# Tu base de datos de prueba se queda en tu máquina.
+*.sqlite3
+
+# === ARCHIVOS TEMPORALES DE PYTHON ===
+# Carpetas que Python crea automáticamente al compilar tu código para que vaya más rápido.
+__pycache__/
+*.py[cod]
+*$py.class
+
+# === ENTORNOS VIRTUALES ===
+# Nunca subas la carpeta de tu entorno virtual (.venv, env, venv). 
+# Ocupa megabytes de archivos que no son tuyos. En Render se instalan desde el requirements.txt.
+.venv/
+venv/
+env/
+ENV/
+
+# === ARCHIVOS ESTÁTICOS DE DJANGO ===
+# Es la carpeta donde 'collectstatic' junta el CSS/JS para producción. 
+# No se sube porque Render la generará desde cero al desplegar.
+staticfiles/
+
+# === ARCHIVOS DEL SISTEMA OPERATIVO ===
+.DS_Store
+Thumbs.db
