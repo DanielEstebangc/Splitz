@@ -1,0 +1,163 @@
+/* ==========================================
+   CONTENEDOR PRINCIPAL CARD (Base: Celular)
+   ========================================== */
+.tabla-contenedor {
+  width: 100%;                  /* Ocupa el ancho disponible */
+  max-width: 260px;             /* En celulares no pasa de 260px para que se mantenga pequeño */
+  margin: 25px auto 0 auto;     /* Centrado horizontal */
+  padding: 16px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* TABLA OPTIMIZADA (Mantiene el contenedor limpio) */
+.small-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  font-size: 0.72rem;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e2f0e2;
+  background-color: #ffffff;
+}
+
+/* ==========================================
+   ESTILOS DIRECTOS PARA LAS ETIQUETAS DE LA TABLA
+   ========================================== */
+
+/* Todas las celdas de la cabecera (th) */
+.small-table th {
+  background-color: var(--color-primary-light);
+  color: #ffffff;
+  font-weight: 600;
+  padding: 8px 6px;
+  text-align: center;
+}
+
+/* 1. ESTILO GENERAL PARA TODOS LOS TD (La base) */
+.small-table td {
+  color: var(--text-dark);
+  border-bottom: 1px solid #f0f0f0;
+  padding: 8px 6px;
+  text-align: center; /* Centro por defecto para toda la tabla */
+  overflow-wrap: break-word;
+  word-break: break-word;
+  line-height: 1.2;
+}
+
+/* 2. EXCEPCIÓN COLUMNA 1: Modifica solo color y alineación */
+.small-table tbody td:nth-child(1) {
+  color: var(--color-primary); 
+}
+
+/* 3. EXCEPCIÓN COLUMNA 2: Modifica color, grosor y alineación */
+.small-table tbody td:nth-child(2) {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+/* Filas Impares: Fondo blanco */
+.small-table tbody tr:nth-of-type(odd) {
+  background-color: #ffffff;
+}
+
+/* Filas Pares: Fondo gris/verde suave alternado */
+.small-table tbody tr:nth-of-type(even) {
+  background-color: var(--bg-light);
+}
+
+/* Efecto Hover interactivo al pasar el mouse */
+.small-table tbody tr:hover {
+  background-color: #e8f5e9;
+  transition: background-color 0.15s ease;
+}
+
+/* Quita la línea del fondo a la última fila para no romper las esquinas */
+.small-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Columna de montos destacados */
+.monto-valor {
+  color: var(--color-accent) !important; 
+  font-weight: 600;
+}
+
+.titulo-seccion {
+  color: var(--color-primary-dark);
+  font-size: 1.1rem;           
+  font-weight: 600;            
+  text-align: center;          
+  margin-top: 0;               
+  margin-bottom: 16px;         
+  letter-spacing: -0.02em;     
+  text-transform: capitalize;  
+}
+
+.tabla-vacia {
+  color: var(--text-dark);
+  opacity: 0.7;                
+  font-style: italic;          
+  font-size: 0.85rem;          
+  margin: 16px 0 0 0;          
+  line-height: 1.4;            
+  text-align: center;          
+}
+
+/* CONTENEDOR GENERAL DEL SALDO */
+.saldo-titulo {
+  margin: 0 0 14px 0;               
+  color: var(--color-primary-dark);  
+  font-weight: 500;                 
+  font-size: 0.95rem;               
+  text-align: center;               
+  line-height: 1.2;                 
+}
+
+/* EL MONTO EN DINERO (El valor que viene de Django) */
+.saldo-monto {
+  color: var(--color-primary-light); 
+  font-weight: 700;            
+}
+
+/* LA FECHA (Entre paréntesis) */
+.saldo-fecha {
+  color: #666666;              
+  font-size: 0.75rem;          
+  opacity: 0.6;                
+  margin-left: 5px;            
+}
+
+/* ==========================================
+   MEDIA QUERY PARA COMPUTADORES (Pantallas Medianas/Grandes)
+   ========================================== */
+@media (min-width: 768px) {
+  .tabla-contenedor {
+    max-width: 340px;           /* En PC se expande un poco para no verse tan minúscula */
+    padding: 20px;              /* Un poco más de aire interno */
+  }
+
+  .titulo-seccion {
+    font-size: 1.25rem;         /* El título crece un toque para mejor legibilidad */
+    margin-bottom: 20px;
+  }
+
+  .saldo-titulo {
+    font-size: 1.05rem;         /* El saldo crece proporcionalmente */
+    margin-bottom: 18px;
+  }
+
+  .small-table {
+    font-size: 0.8rem;          /* La letra de la tabla sube un poco de tamaño */
+  }
+
+  .small-table th,
+  .small-table td {
+    padding: 10px 8px;          /* Celdas un poquitico más espaciadas */
+  }
+}

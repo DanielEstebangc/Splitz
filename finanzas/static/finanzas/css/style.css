@@ -1,0 +1,27 @@
+
+
+.material-symbols-outlined {
+    font-size: 50px !important;
+    display: inline-flex;   /* permite gap y spacing real */
+    vertical-align: middle; /* centra con el texto */
+}
+
+#error {
+    color: red;
+    font-weight: bold;
+    display: none;
+}
+
+:root {
+  /* Tu paleta de colores organizadas por herencia y uso */
+  --color-primary: #4caf50;      /* Verde base de la marca */
+  --color-primary-light: #6bbd6e;/* Verde brillante (el de tu cabecera de tabla) */
+  --color-primary-dark: #358438; /* Verde medio/oscuro (el de tus títulos h3) */
+  --color-accent: #2d6830;       /* Verde bosque para destacar elementos */
+  --color-deep-dark: #224525;    /* Verde muy oscuro para textos principales o fondos */
+  
+  /* Fondos y neutros */
+  --bg-light: #f9f9f9;
+  --text-dark: #333333;
+}
+

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aut Money</title>
+    
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'finanzas/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'finanzas/css/layout/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'finanzas/css/table/table.css' %}">
+    <link rel="stylesheet" href="{% static 'finanzas/css/input-card/input-card.css' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <span class="material-symbols-outlined">account_balance</span>  
+            <h2>Aut money</h2>
+        </div>
+    </header>
+
+   <main>
+        <div class="contenedor-principal">
+            
+            <form class="Tarjeta" method="POST" action="">
+                {% csrf_token %} 
+                <div>
+                    <h4 class="h4-glow"> Agregar saldo </h4>
+                </div>
+
+                <div id="inputsCalculo">
+                    <div class="input-flotante">
+                        <input type="number" step="any" name="saldo" id="valor" required value="{{ saldo_original|default:'' }}" />
+                        <label for="valor">Ingrese valor</label>
+                    </div>
+                
+                    <button type="submit" class="btn-pro" id="calcular">
+                        Calcular
+                    </button>
+                </div>
+
+                <p id="error" style="display: none;">error</p>
+            </form>
+
+            <div class="tabla-contenedor">
+                <h3 class="titulo-seccion">Porcentajes de dinero</h3>
+
+                {% if porcentajes %}
+                    <h4 class="saldo-titulo">
+                        Saldo Total: <span class="saldo-monto">{{ saldo_total_cop }}</span> 
+                        <span class="saldo-fecha">({{ fecha }})</span>
+                    </h4>
+                    
+                    <table class="small-table">
+                        <thead>
+                            <tr>
+                                <th>Categoría (Porcentaje)</th>
+                                <th>Monto Asignado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for categoria, monto in porcentajes.items %}
+                            <tr>
+                                <td><strong>{{ categoria }}</strong></td>
+                                <td class="monto-valor">{{ monto }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="tabla-vacia">
+                        Ingresa un saldo para calcular los porcentajes automáticamente.
+                    </p>
+                {% endif %}
+            </div>
+            
+        </div>   
+    </main>
+
+    <footer>
+        <div>
+            <img class="footer-logo" src="{% static 'finanzas/assets/logo_DS.svg' %}" alt="DS" />
+        </div>
+    </footer>
+
+    <script src="{% static 'finanzas/js/tarjetaentrada_data.js' %}"></script>
+</body>
+</html>
