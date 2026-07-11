@@ -10,22 +10,35 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Cargar las variables del archivo .env si existe en local
+load_dotenv()
+
+# Detectar el entorno (por defecto asume producción si no se especifica)
+ENV = os.environ.get('ENVIRONMENT', 'production')
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$)si+u$9)9%3o0tx-32ky70e+6#0(x9^)lnr01+tlak5#z=6_z'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-$)si+u$9)9%3o0tx-32ky70e+6#0(x9^)lnr01+tlak5#z=6_z')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Si ENV es 'local', DEBUG será True. En Render será False.
+DEBUG = (ENV == 'local')
 
-ALLOWED_HOSTS = []
+if DEBUG:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+else:
+    # Agrega aquí el subdominio que te dé Render (ej: '.onrender.com')
+    ALLOWED_HOSTS = ['.onrender.com']
 
 
 # Application definition
@@ -38,11 +51,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'finanzas',
-        
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # <-- Whitenoise justo aquí debajo de SecurityMiddleware
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -116,4 +129,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+# Carpeta donde Django recolectará todos los estáticos para producción al ejecutar collectstatic
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Solo activar la compresión y caché pesada de Whitenoise en producción
+if not DEBUG:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
