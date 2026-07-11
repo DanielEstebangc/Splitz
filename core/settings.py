@@ -137,3 +137,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Solo activar la compresión y caché pesada de Whitenoise en producción
 if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Forzar a Django a guardar las sesiones en cookies seguras en lugar de la Base de Datos
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
