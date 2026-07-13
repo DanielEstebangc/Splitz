@@ -39,7 +39,7 @@
                 <div id="inputsCalculo">
                     <div class="input-flotante">
                         <!-- El value ahora busca dentro de tu contexto unificado -->
-                        <input type="number" step="any" name="saldo" id="valor" required value="{{ saldo_original|default:'' }}" />
+                        <input type="number" step="any" name="saldo" id="valor" required min="1" value="{{ saldo_original|default:'' }}" />
                         <label for="valor">Ingrese valor</label>
                     </div>
                 
@@ -48,7 +48,7 @@
                     </button>
                 </div>
 
-                <p id="error" style="display: none;">error</p>
+                <p id="error" style="display: none; color: #ff4a4a; font-size: 0.9rem; margin-top: 10px;"></p>
             </form>
 
             <div class="tabla-contenedor">
