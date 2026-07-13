@@ -1,81 +1,25 @@
 const boton = document.getElementById("calcular");
 const input = document.getElementById("valor");
-const tablaDiv = document.getElementById("tabla");
 const mensajeerror = document.getElementById("error");
 
+// Escuchamos el evento 'submit' del formulario en lugar del 'click' del botón
+// (Es una mejor práctica porque atrapa también cuando el usuario da Enter)
+const formulario = document.querySelector(".Tarjeta");
 
-boton.addEventListener("click", async () => {
+formulario.addEventListener("submit", function (evento) {
     const saldo = Number(input.value);
 
+    // Validación local en el navegador
     if (isNaN(saldo) || saldo <= 0) {
+        // 1. Detenemos por completo el envío del formulario a Django
+        evento.preventDefault(); 
+        
+        // 2. Mostramos el mensaje de error en la pantalla
         mensajeerror.textContent = "Por favor, ingrese un número válido mayor que cero.";
-        mensajeerror.style.display = "block";  // ✅ mostrar
-        tablaDiv.innerHTML = "";        
-        return;                                // ⚠️ detiene el resto de la función
-
+        mensajeerror.style.display = "block"; 
     } else {
+        // Si el número está perfecto, limpiamos el error y dejamos que el formulario viaje normal
         mensajeerror.textContent = "";
-        mensajeerror.style.display = "none";  
-      }       
-
-    const response = await fetch("/calcular", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ saldo })
-    });
-
-    const data = await response.json();
-
-    construirTabla(data);
+        mensajeerror.style.display = "none";
+    }
 });
-
-const ordenCategorias = [
-    "Fecha",
-    "Disfrute (15%)",
-    "Esencial (40%)",
-    "Estabilidad (15%)",
-    "Inversión (30%)",
-    "Saldo Total"
-];
-
-function construirTabla(data) {
-   const objeto = data[0]; // diccionario real
-
-    let html = `
-        <table class="styling-tabla">
-            <thead>
-                <tr>
-    `;
-
-    // 1️⃣ Cabeceras (categorías como columnas)
-    for (const categoria of ordenCategorias) {
-        if (objeto[categoria] === undefined) continue;
-
-        html += `<th>${categoria}</th>`;
-    }
-
-    html += `
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-    `;
-
-    // 2️⃣ Valores (una sola fila)
-    for (const categoria of ordenCategorias) {
-        const valor = objeto[categoria];
-        if (valor === undefined) continue;
-
-        html += `<td>${valor}</td>`;
-    }
-
-    html += `
-                </tr>
-            </tbody>
-        </table>
-    `;
-
-    tablaDiv.innerHTML = html;
-}
