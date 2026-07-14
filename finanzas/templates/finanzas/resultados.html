@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aut Money</title>
+    <title>Splitz</title>
     
     {% load static %}
 
@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{% static 'finanzas/css/layout/layout.css' %}">
     <link rel="stylesheet" href="{% static 'finanzas/css/table/table.css' %}">
     <link rel="stylesheet" href="{% static 'finanzas/css/input-card/input-card.css' %}">
+    <link rel="stylesheet" href="{% static 'finanzas/css/input-card/style_modal_porcentaje.css' %}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,7 +23,7 @@
     <header>
         <div style="display: flex; align-items: center; gap: 20px;">
             <span class="material-symbols-outlined">account_balance</span>  
-            <h2>Aut money</h2>
+            <h2>Splitz</h2>
         </div>
     </header>
 
@@ -37,10 +38,18 @@
                 </div>
 
                 <div id="inputsCalculo">
-                    <div class="input-flotante">
-                        <!-- El value ahora busca dentro de tu contexto unificado -->
-                        <input type="number" step="any" name="saldo" id="valor" required value="{{ saldo_original|default:'' }}" />
-                        <label for="valor">Ingrese valor</label>
+                   <!-- Envoltura para alinear el input flotante y el botón % lado a lado -->
+                    <div class="grupo-entrada-porcentaje" style="display: flex; align-items: center; gap: 10px; width: 100%;">
+                        <div class="input-flotante" style="flex-grow: 1;">
+                            <!-- Tu input original se mantiene intacto -->
+                            <input type="number" step="any" name="saldo" id="valor" required min="1" value="{{ saldo_original|default:'' }}" />
+                            <label for="valor">Ingrese valor</label>
+                        </div>
+                        
+                        <!-- El nuevo botón % (type="button" evita que envíe el formulario al hacer clic) -->
+                        <button type="button" id="btn-abrir-modal" class="btn-porcentaje" title="Editar porcentajes de las categorías">
+                            %
+                        </button>
                     </div>
                 
                     <button type="submit" class="btn-pro" id="calcular">
@@ -48,7 +57,73 @@
                     </button>
                 </div>
 
-                <p id="error" style="display: none;">error</p>
+                <p id="error" style="display: none; color: #ff4a4a; font-size: 0.9rem; margin-top: 10px;"></p>
+
+                <!-- ========================================== -->
+                <!-- 🏢 VENTANA EMERGENTE (MODAL DE PORCENTAJES) -->
+                <!-- ========================================== -->
+                <div id="modal-porcentajes" class="modal-overlay" style="display: none;">
+                    <div class="modal-contenido">
+                        
+                        <h3 class="modal-titulo">Configurar Porcentajes</h3>
+                        <p class="modal-subtitulo">La suma de los porcentajes debe dar exactamente 100%</p>
+                        
+                        <!-- Contenedor de Dos Columnas -->
+                        <div class="modal-columnas">
+                            
+                            <!-- Lado 1: Tabla de referencia dinámica con datos del backend -->
+                            <div class="columna-referencia">
+                                <h4>Porcentaje Actual</h4>
+                                <ul class="lista-referencia">
+                                    <!-- Django pinta el valor real procesado, o el por defecto si la sesión está limpia -->
+                                    <li><strong>Esencial:</strong> {{ porcentaje_esencial|default:'40' }}%</li>
+                                    <li><strong>Estabilidad:</strong> {{ porcentaje_estabilidad|default:'15' }}%</li>
+                                    <li><strong>Disfrute:</strong> {{ porcentaje_disfrute|default:'15' }}%</li>
+                                    <li><strong>Inversión:</strong> {{ porcentaje_inversion|default:'30' }}%</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Lado 2: Inputs dinámicos que conservan los datos después de Calcular -->
+                            <div class="columna-inputs">
+                                <h4>Nuevos Valores (%)</h4>
+                                
+                                <div class="input-modal-grupo">
+                                    <label for="p_esencial">Esencial:</label>
+                                    <input type="number" id="p_esencial" name="porcentaje_esencial" min="0" max="100" placeholder="40" value="{{ porcentaje_esencial|default:'40' }}">
+                                </div>
+                                
+                                <div class="input-modal-grupo">
+                                    <label for="p_estabilidad">Estabilidad:</label>
+                                    <input type="number" id="p_estabilidad" name="porcentaje_estabilidad" min="0" max="100" placeholder="15" value="{{ porcentaje_estabilidad|default:'15' }}">
+                                </div>
+                                
+                                <div class="input-modal-grupo">
+                                    <label for="p_disfrute">Disfrute:</label>
+                                    <input type="number" id="p_disfrute" name="porcentaje_disfrute" min="0" max="100" placeholder="15" value="{{ porcentaje_disfrute|default:'15' }}">
+                                </div>
+                                
+                                <div class="input-modal-grupo">
+                                    <label for="p_inversion">Inversión:</label>
+                                    <input type="number" id="p_inversion" name="porcentaje_inversion" min="0" max="100" placeholder="30" value="{{ porcentaje_inversion|default:'30' }}">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Alerta de error interna dentro del modal -->
+                        <p id="error-suma-modal" class="error-modal" style="display: none; color: #ff4a4a; font-size: 0.9rem; margin: 15px 0; text-align: center;"></p>
+
+                        <!-- Pregunta de confirmación y botones -->
+                        <div class="modal-pregunta">
+                            <p>¿Deseas mantener estos cambios?</p>
+                            <div class="modal-botones">
+                                <button type="button" id="btn-guardar-modal" class="btn-si">SÍ</button>
+                                <button type="button" id="btn-cerrar-modal" class="btn-no">NO</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </form>
 
             <div class="tabla-contenedor">

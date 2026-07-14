@@ -1,0 +1,321 @@
+/* ==========================================================================
+   Overlay: Fondo semitransparente que cubre la pantalla
+   ========================================================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(34, 69, 37, 0.4); /* Verde oscuro traslúcido para que combine */
+    backdrop-filter: blur(6px); /* Desenfoque elegante */
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Contenido del Modal: Mismos bordes y sombras de tu .Tarjeta
+   ========================================================================== */
+.modal-contenido {
+    background-color: #ffffff;
+    border-radius: 12px; /* Uniforme con tu .Tarjeta */
+    border: 2px solid #c8eac9; /* Borde verde suave de tus inputs */
+    padding: 30px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(45, 104, 48, 0.15); /* Sombra pro */
+    text-align: center;
+    animation: aparecerModal 0.3s ease-out forwards;
+}
+
+@keyframes aparecerModal {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-15px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Títulos y Subtítulos con tu fuente */
+.modal-titulo {
+    font-size: clamp(1.2rem, 4vw, 1.4rem);
+    font-weight: 700;
+    color: #2d6830; /* Verde oscuro principal */
+    margin: 0 0 6px 0;
+}
+
+.modal-subtitulo {
+    font-size: 0.9rem;
+    color: #557a57; /* Verde grisáceo suave */
+    margin: 0 0 25px 0;
+}
+
+/* ==========================================================================
+   Diseño de Dos Columnas (Layout Interno)
+   ========================================================================== */
+.modal-columnas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+@media (max-width: 480px) {
+    .modal-columnas {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+}
+
+/* Cajas de las Columnas */
+.columna-referencia, 
+.columna-inputs {
+    text-align: left;
+    background-color: #f3faf3; /* Tu color de fondo suave */
+    padding: 16px;
+    border-radius: 10px;
+    border: 1px solid #c8eac9;
+}
+
+.columna-referencia h4, 
+.columna-inputs h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #224525;
+    margin-top: 0;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #c8eac9;
+    padding-bottom: 6px;
+}
+
+/* Lista del Porcentaje Actual */
+.lista-referencia {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lista-referencia li {
+    font-size: 0.9rem;
+    color: #358438;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.lista-referencia li strong {
+    color: #224525;
+}
+
+/* Inputs internos para los Porcentajes */
+.input-modal-grupo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.input-modal-grupo label {
+    font-size: 0.85rem;
+    color: #358438;
+    font-weight: 500;
+}
+
+.input-modal-grupo input {
+    width: 65px;
+    background-color: #ffffff;
+    border: 1px solid #c8eac9;
+    color: #224525;
+    border-radius: 6px;
+    padding: 5px 8px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.input-modal-grupo input:focus {
+    border-color: #4caf50;
+    box-shadow: 0 0 0 3px rgba(107, 189, 110, 0.2);
+}
+
+/* ==========================================================================
+   Sección de Pregunta y Botones de Decisión
+   ========================================================================== */
+.modal-pregunta {
+    border-top: 1px solid #c8eac9;
+    padding-top: 20px;
+}
+
+.modal-pregunta p {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #224525;
+    margin: 0 0 15px 0;
+}
+
+.modal-botones {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.btn-si, 
+.btn-no {
+    padding: 10px 24px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.2s ease;
+    border: none;
+    min-width: 80px;
+}
+
+/* Botón SÍ: Sigue el mismo degradado de tu .btn-pro */
+.btn-si {
+    background: linear-gradient(135deg, #2d6830, #4caf50);
+    color: #f3faf3;
+    box-shadow: 0 4px 10px rgba(45, 104, 48, 0.2);
+}
+
+.btn-si:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(45, 104, 48, 0.35);
+}
+
+/* Botón NO: Estilo alternativo y sutil (Rojo claro de advertencia) */
+.btn-no {
+    background-color: #fff1f1;
+    color: #d32f2f;
+    border: 1px solid #ffcdd2;
+}
+
+.btn-no:hover {
+    background-color: #ffebee;
+    transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Botón % (Hereda la estética premium de tu .btn-pro)
+   ========================================================================== */
+.btn-porcentaje {
+    /* 1. Estética idéntica a tu .btn-pro */
+    background: linear-gradient(135deg, #2d6830, #4caf50);
+    color: #f3faf3;
+    border: none;
+    border-radius: 12px; /* Mismo radio de borde de tu .btn-pro */
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden; /* Clave para que el brillo animado no se salga */
+    
+    /* 2. Ajuste de tamaño cuadrado para alinearse al input */
+    width: 48px;
+    height: 48px;
+    padding: 0; /* Sin padding para centrar la letra % perfectamente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* 3. Sombra idéntica a tu .btn-pro */
+    box-shadow: 0 8px 20px rgba(45, 104, 48, 0.35);
+    
+    /* 4. Transición suave */
+    transition: 
+        transform 0.2s ease,
+        box-shadow 0.3s ease;
+}
+
+/* Replicamos exactamente el brillo animado del botón calcular */
+.btn-porcentaje::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.35),
+        transparent
+    );
+    transition: left 0.6s ease;
+}
+
+/* Hover: Se eleva y brilla tal como tu .btn-pro */
+.btn-porcentaje:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(39, 84, 41, 0.45);
+}
+
+.btn-porcentaje:hover::before {
+    left: 100%;
+}
+
+/* Active (Click): Se hunde sutilmente */
+.btn-porcentaje:active {
+    transform: scale(0.96);
+    box-shadow: 0 6px 14px rgba(34, 69, 37, 0.4);
+}
+
+/* ==========================================================================
+   AGREGADO RESPONSIVO: Ajustes finos para celulares muy pequeños (<360px)
+   ========================================================================== */
+@media (max-width: 360px) {
+    .modal-overlay {
+        padding: 8px; /* Menor espacio lateral en el fondo */
+    }
+    
+    .modal-contenido {
+        padding: 16px 12px; /* Compacta los rellenos internos */
+        border-radius: 10px;
+    }
+    
+    .modal-subtitulo {
+        margin-bottom: 16px;
+    }
+
+    .columna-referencia, 
+    .columna-inputs {
+        padding: 10px; /* Cajas internas más compactas */
+    }
+
+    .lista-referencia li,
+    .input-modal-grupo label {
+        font-size: 0.8rem; /* Letra un tris más pequeña */
+    }
+
+    .input-modal-grupo input {
+        width: 55px; /* Input ligeramente más estrecho */
+        font-size: 0.8rem;
+    }
+
+    .modal-pregunta {
+        padding-top: 12px;
+    }
+
+    .modal-botones {
+        gap: 8px;
+    }
+
+    .btn-si, 
+    .btn-no {
+        padding: 8px 16px; /* Botones cómodos pero reducidos */
+        font-size: 0.8rem;
+        min-width: 70px;
+    }
+}
